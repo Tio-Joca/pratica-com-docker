@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  php:
+    build: .
+    ports:
+    - 8080:80
+    - 8081:443
+    volumes:
+    - ./www:/var/www/html
+    links:
+    - db
+  db:
+    image: mysql:5.7
+    volumes:
+    - /var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=phprs
+    - MYSQL_DATABASE=phprs
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      - PMA_ARBITRARY=1
+      - MYSQL_ROOT_PASSWORD=phprs
+      - MYSQL_DATABASE=phprs
